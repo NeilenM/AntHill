@@ -28,27 +28,7 @@ export default async function handler(req, res) {
     }
   }
   
-  // -------------- Lógica para obtener todos los eventos --------------
   
-  if (req.method === "GET") {
-    try {
-      const eventosSnapshot = await getDocs(collection(db, "eventos"));
-      const eventos = [];
-      
-      eventosSnapshot.forEach((doc) => {
-        eventos.push({
-          id: doc.id,
-          ...doc.data() // Obtenemos los datos del documento de la db
-        });
-      });
-
-      return res.status(200).json(eventos);
-    } catch (error) {
-      console.error("Error al obtener eventos:", error);
-      throw error;
-    }
-
-  }
   
   // -------------- Lógica para agregar fotos a un evento --------------
   

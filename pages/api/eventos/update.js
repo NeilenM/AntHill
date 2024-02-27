@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { db } from "../../../firebase/client";
 import { collection, addDoc, doc, updateDoc, getDocs } from "firebase/firestore";
 
