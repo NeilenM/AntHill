@@ -1,10 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { db } from "../../../firebase/client";
-import { collection, addDoc, doc, updateDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 export default async function handler(req, res) {
 
-  // --------------  Lógica para agregar un evento --------------
+  // --------------  Función para agregar un evento --------------
 
   if (req.method === "POST") {
     const { fecha, hora, artistas, fotos } = req.body;
@@ -18,7 +18,8 @@ export default async function handler(req, res) {
         fecha,
         hora,
         artistas,
-        fotos: null
+        fotos: null,
+        banner: null
       });
       console.log("Evento creado con ID: ", docRef.id);
       return res.status(201).json({ message: "Evento creado exitosamente." });
@@ -30,22 +31,40 @@ export default async function handler(req, res) {
   
   
   
-  // -------------- Lógica para agregar fotos a un evento --------------
+  // -------------- Función para agregar fotos a un evento -------------- VER
   
-  if  (req.method === "PUT") {
-    const { id, fotos } = req.body;
+  // if  (req.method === "PUT") {
+  //   const { id, fotos } = req.body;
+
+  //   try {
+  //     const eventoRef = doc(db, "eventos", id);
+  //     await updateDoc(eventoRef, {
+  //       fotos 
+  //     });
+
+  //     console.log("Id del evento: ", id);
+  //     return res.status(200).json({ message: "Evento actualizado con éxito" });
+  //   } catch (error) {
+  //     console.error("Error al agregar imágenes:", error);
+  //     throw error;
+  //   }
+  // }
+
+  // ---------------- Función para eliminar un evento
+  if (req.method === "DELETE") {
+    const { id } = req.body;
 
     try {
       const eventoRef = doc(db, "eventos", id);
-      await updateDoc(eventoRef, {
-        fotos 
-      });
+      await deleteDoc(eventoRef);
 
-      console.log("Id del evento: ", id);
-      return res.status(200).json({ message: "Evento actualizado con éxito" });
+      return res.status(200).json({ message: "Evento eliminado." });
     } catch (error) {
-      console.error("Error al agregar imágenes:", error);
-      throw error;
+      console.error("Error al eliminar evento:", error);
+      return res.status(500).json({ error: "Error al eliminar evento." });
     }
   }
+
+  // Si no se recibe una solicitud DELETE, se responde con un error de método no permitido
+  return res.status(405).json({ error: "Método no permitido." });
 }

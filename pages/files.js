@@ -10,6 +10,33 @@ export default function Upload() {
     setFiles(selectedFiles);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData();
+  //   files.forEach((file) => formData.append("files", file));
+
+  //   try {
+  //     const response = await fetch("/api/eventos/uploadPhotos", {
+  //       method: "PUT",
+  //       body: formData,
+  //       headers: {
+  //         // Necesitas especificar el Content-Type como multipart/form-data
+  //         // para que el backend pueda entender que se están enviando archivos
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       console.log("Archivos subidos correctamente");
+  //     } else {
+  //       console.error("Error al subir archivos");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error en la solicitud:", error);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -17,7 +44,7 @@ export default function Upload() {
     files.forEach((file) => formData.append("files", file));
 
     try {
-      const response = await fetch("/api/eventos/uploadPhotos", {
+      const response = await fetch("/api/eventos/create", {
         method: "PUT",
         body: formData,
         headers: {
