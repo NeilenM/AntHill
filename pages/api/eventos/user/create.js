@@ -7,8 +7,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, password } = req.body;
 
-    console.log("email", email, password)
-
     if (!email || !password) {
       return res.status(400).json({ message: "Faltan campos obligatorios." });
     }
@@ -20,10 +18,8 @@ export default async function handler(req, res) {
         email,
         password: hashedPassword, 
       });
-      console.log("usuario creado con ID: ", docRef.id);
-      return res.status(201).json({ message: "Usuario creado con éxito" });
+      return res.status(201).json({ message: "Usuario creado con éxito", docRef });
     } catch (error) {
-      console.error("Error al crear usuario:", error);
       throw error;
     }
   }

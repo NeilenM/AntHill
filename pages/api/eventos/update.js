@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       const eventoRef = doc(db, "eventos", id);
       await updateDoc(eventoRef, updatingData);
 
-      console.log("Id del evento: ", id);
+      console.log("Id del evento:", id);
       return res.status(200).json({ message: "Evento actualizado con éxito" });
     } catch (error) {
       console.error("Error al agregar imágenes:", error);

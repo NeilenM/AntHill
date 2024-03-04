@@ -9,8 +9,7 @@ export default async function handler(req, res) {
     try {
       const getEvents = await getDocs(collection(db, "eventos"));
       const eventos = [];
-    //   const currentDate = new Date();
-    const currentDate = moment().tz('America/Argentina/Buenos_Aires');
+      const currentDate = moment().tz('America/Argentina/Buenos_Aires');
 
     getEvents.forEach((doc) => {
         const eventoData = doc.data();

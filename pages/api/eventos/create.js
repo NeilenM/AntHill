@@ -1,30 +1,27 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { db } from "../../../firebase/client";
-import { collection, addDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, doc, deleteDoc } from "firebase/firestore";
 
 export default async function handler(req, res) {
 
   // --------------  Función para agregar un evento --------------
 
   if (req.method === "POST") {
-    const { fecha, hora, artistas, fotos } = req.body;
-
-    if (!fecha || !hora || !artistas) {
-      return res.status(400).json({ message: "Faltan campos obligatorios." });
-    }
+    const { fechaInicio, fechaFin, hora, artistas, banner, locacion, descripcion, fotosURL} = req.body;
 
     try {
       const docRef = await addDoc(collection(db, "eventos"), {
-        fecha,
-        hora,
-        artistas,
-        fotos: null,
-        banner: null
+        fechaInicio: fechaInicio || null,
+        fechaFin: fechaFin || null,
+        hora: hora || null,
+        locacion: locacion|| null,
+        artistas: artistas|| null,
+        descripcion: descripcion|| null,
+        fotosURL:  fotosURL || null,
+        banner: banner || null
       });
-      console.log("Evento creado con ID: ", docRef.id);
       return res.status(201).json({ message: "Evento creado exitosamente." });
     } catch (error) {
-      console.error("Error al crear evento:", error);
       throw error;
     }
   }
